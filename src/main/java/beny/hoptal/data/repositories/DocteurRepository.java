@@ -1,4 +1,4 @@
 package beny.hoptal.data.repositories;
 
-public interface DoctorRepository {
+public interface DocteurRepository {
 }

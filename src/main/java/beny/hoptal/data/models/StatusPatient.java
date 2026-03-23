@@ -1,4 +1,5 @@
 package beny.hoptal.data.models;
 
-public class StatusPatient {
+public enum StatusPatient {
+    ACTIF, INACTIF, DECEDE
 }

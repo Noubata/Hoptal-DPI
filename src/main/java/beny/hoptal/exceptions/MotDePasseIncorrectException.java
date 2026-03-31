@@ -1,0 +1,7 @@
+package beny.hoptal.exceptions;
+
+public class MotDePasseIncorrectException extends RuntimeException {
+    public MotDePasseIncorrectException(String message) {
+        super(message);
+    }
+}

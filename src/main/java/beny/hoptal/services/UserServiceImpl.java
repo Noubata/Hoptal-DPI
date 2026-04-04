@@ -15,7 +15,6 @@ import beny.hoptal.dtos.responses.LoginResponse;
 import beny.hoptal.exceptions.*;
 import beny.hoptal.utils.UserMapper;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +22,21 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserServiceImpl implements UserService {
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    JwtService jwtService;
-    @Autowired
-    BCryptPasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
+
+    private final RoleRepository roleRepository;
+
+    private final JwtService jwtService;
+
+    private final BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, JwtService jwtService, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.jwtService = jwtService;
+        this.passwordEncoder = passwordEncoder;
+    }
     @Transactional
     @Override
     public LoginResponse login(LoginRequest request) {
@@ -38,7 +44,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UtilisateurIntrouvableEception("Utilisateur introuvable."));
 
         if (!user.getActif()) {
-            throw new RuntimeException("Ce compte est désactivé. Contactez l'administrateur.");
+            throw new CompteDesactiveException("Ce compte est désactivé. Contactez l'administrateur.");
         }
 
         if (!passwordEncoder.matches(request.getMotDePasse(), user.getMotDePasseHashe())) {
@@ -74,6 +80,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    @Override
     public ChangerMotDePasseResponse changerMotDePasse(Long userId, ChangerMotDePasseRequest request) {
 
         User user = userRepository.findById(userId)
@@ -89,6 +96,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Transactional
+    @Override
     public ActiverDesactiverUserResponse activerDesactiverUser(Long userId, ActiverDesactiverUserRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UtilisateurIntrouvableEception("Utilisateur introuvable."));

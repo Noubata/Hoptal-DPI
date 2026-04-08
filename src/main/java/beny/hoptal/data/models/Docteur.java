@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -19,10 +20,10 @@ public class Docteur {
     private Long id;
     private String nom;
     private String prenom;
-    private String numeroDuLicence;
+    private String numeroDeLicence;
     private String email;
     private String numeroDeTelephone;
-    private LocalDateTime dateDebut;
+    private LocalDate dateEmbauche;
     @ManyToOne
     private Specialite specialite;
     @ManyToOne

@@ -7,10 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
+//@AllArgsConstructor
 @NoArgsConstructor
-public class APIResponse {
+public class APIResponse<Object> {
     private String message;
     private String status;
     private Object data;
+
+    public APIResponse(boolean bool, Object data) {
+    }
 }

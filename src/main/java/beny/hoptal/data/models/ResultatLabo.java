@@ -26,7 +26,7 @@ public class ResultatLabo {
     private LocalDateTime dateDeTest;
     private String commentaire;
     @Enumerated(EnumType.STRING)
-    private StatusResultat statut;
+    private StatusResultat statutResultat;
     @ManyToOne
     private Patient patient;
     @ManyToOne

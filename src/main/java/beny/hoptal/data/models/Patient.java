@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -17,14 +18,14 @@ public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String numeroDuDossier;
+    private String numeroDossier;
     private String nom;
     private String prenom;
     private String numeroDeTelephone;
-    private String dateDeNaissance;
+    private LocalDate dateDeNaissance;
     @Enumerated(EnumType.STRING)
     private Genre genre;
-    private String addresse;
+    private String adresse;
     private String email;
     @Enumerated(EnumType.STRING)
     private TypeSang typeSang;

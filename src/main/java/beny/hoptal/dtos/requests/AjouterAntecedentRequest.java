@@ -4,6 +4,12 @@ import beny.hoptal.data.models.TypeAntecedent;
 import lombok.Data;
 import java.time.LocalDate;
 
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class AjouterAntecedentRequest {
     private TypeAntecedent type;

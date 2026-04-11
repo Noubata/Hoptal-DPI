@@ -5,6 +5,12 @@ import beny.hoptal.data.models.TypeSang;
 import lombok.Data;
 import java.time.LocalDate;
 
+import lombok.*;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CreerPatientRequest {
     private String nom;

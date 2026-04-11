@@ -1,8 +1,12 @@
 package beny.hoptal.dtos.requests;
 
-import lombok.Data;
-import java.time.LocalDate;
+import lombok.*;
 
+import java.time.LocalDate;
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class CreerDocteurRequest {
     private String nom;
@@ -13,7 +17,6 @@ public class CreerDocteurRequest {
     private LocalDate dateEmbauche;
     private Long specialiteId;
     private Long departementId;
-    // User account
     private String nomUtilisateur;
     private String motDePasse;
 }

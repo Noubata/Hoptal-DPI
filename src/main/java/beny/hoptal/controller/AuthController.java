@@ -27,13 +27,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<APIResponse<LoginResponse>> login(@RequestBody LoginRequest request) {
         LoginResponse loginResponse = userService.login(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, loginResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("logged in successfully", loginResponse));
     }
 
     @PutMapping("/changer-mot-de-passe/{userId}")
     public ResponseEntity<APIResponse<ChangerMotDePasseResponse>> changerMotDePasse(@PathVariable Long userId, @RequestBody ChangerMotDePasseRequest request) {
         ChangerMotDePasseResponse changeMotDePasseResponse = userService.changerMotDePasse(userId, request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, changeMotDePasseResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("mot de passe change avec succes", changeMotDePasseResponse));
     }
 
     @PutMapping("/activer-desactiver/{userId}")
@@ -41,6 +41,6 @@ public class AuthController {
             @PathVariable Long userId,
             @RequestBody ActiverDesactiverUserRequest request) {
         ActiverDesactiverUserResponse activerDesactiverUserResponse = userService.activerDesactiverUser(userId, request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, activerDesactiverUserResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("utilisateur activite avec succes", activerDesactiverUserResponse));
     }
 }

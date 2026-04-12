@@ -23,7 +23,7 @@ public class ResultatLaboController {
     public ResponseEntity<APIResponse<List<ResultatDuLaboResponse>>> getResultatsAnormaux(
             @PathVariable Long patientId) {
         List<ResultatDuLaboResponse> resultat = resultatDuLaboService.getResultatsAnormaux(patientId);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, resultat));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Succes", resultat));
     }
 
     @GetMapping("/evolution")
@@ -31,6 +31,6 @@ public class ResultatLaboController {
             @RequestParam Long patientId,
             @RequestParam String nomTest) {
         List<ResultatDuLaboResponse> leResult = resultatDuLaboService.getEvolutionResultat(patientId, nomTest);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, leResult));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Ok", leResult));
     }
 }

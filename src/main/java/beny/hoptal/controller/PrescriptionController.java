@@ -25,7 +25,7 @@ public class PrescriptionController {
     public ResponseEntity<APIResponse<List<AjouterPrescriptionResponse>>> getPrescriptionsActives(
             @PathVariable Long patientId) {
         List<AjouterPrescriptionResponse> ajouterPrescriptionResponses = prescriptionService.getPrescriptionsActives(patientId);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, ajouterPrescriptionResponses));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("ok", ajouterPrescriptionResponses));
     }
 
     @GetMapping("/verifier")
@@ -33,7 +33,7 @@ public class PrescriptionController {
             @RequestParam Long patientId,
             @RequestParam String medicament) {
         List<AjouterAllergieResponse> ajouterAllergieResponses = prescriptionService.verifierAllergiesMedicament(patientId, medicament);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, ajouterAllergieResponses));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("ok", ajouterAllergieResponses));
 
     }
 }

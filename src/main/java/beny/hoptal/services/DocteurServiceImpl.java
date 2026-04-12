@@ -1,10 +1,7 @@
 package beny.hoptal.services;
 
 import beny.hoptal.data.models.*;
-import beny.hoptal.data.repositories.DepartementRepository;
-import beny.hoptal.data.repositories.DocteurRepository;
-import beny.hoptal.data.repositories.ReleveMedicaleRepository;
-import beny.hoptal.data.repositories.RoleRepository;
+import beny.hoptal.data.repositories.*;
 import beny.hoptal.dtos.requests.CreerDocteurRequest;
 import beny.hoptal.dtos.requests.CreerUserRequest;
 import beny.hoptal.dtos.responses.CreerDocteurResponse;
@@ -25,19 +22,22 @@ public class DocteurServiceImpl implements DocteurService {
         private final ReleveMedicaleRepository releveMedicaleRepository;
         private final RoleRepository roleRepository;
         private final UserService userService;
+        private final UserRepository userRepository;
 
         public DocteurServiceImpl(DocteurRepository docteurRepository,
                              SpecialiteRepository specialiteRepository,
                              DepartementRepository departementRepository,
                              ReleveMedicaleRepository releveMedicaleRepository,
                              RoleRepository roleRepository,
-                             UserService userService) {
+                             UserService userService,
+                                  UserRepository userRepository) {
             this.docteurRepository = docteurRepository;
             this.specialiteRepository = specialiteRepository;
             this.departementRepository = departementRepository;
             this.releveMedicaleRepository = releveMedicaleRepository;
             this.roleRepository = roleRepository;
             this.userService = userService;
+            this.userRepository = userRepository;
         }
 
         @Transactional
@@ -49,10 +49,10 @@ public class DocteurServiceImpl implements DocteurService {
                         + request.getNumeroDeLicence() + "' existe déjà.");
             }
 
-            Specialite specialite = specialiteRepository.findById(request.getSpecialiteId())
-                    .orElseThrow(() -> new SpecialiteIntrouvable("Spécialité introuvable."));
+            Specialite specialite = specialiteRepository.findByNom(request.getNom())
+                   .orElseThrow(() -> new SpecialiteIntrouvable("Spécialité introuvable."));
 
-            Departement departement = departementRepository.findById(request.getDepartementId())
+            Departement departement = departementRepository.findByNom(request.getNom())
                     .orElseThrow(() -> new DepartementIntrouvableException("Département introuvable."));
 
             Role role = roleRepository.findByNom("DOCTOR")
@@ -62,7 +62,9 @@ public class DocteurServiceImpl implements DocteurService {
             userRequest.setNomUtilisateur(request.getNomUtilisateur());
             userRequest.setMotDePasse(request.getMotDePasse());
             userRequest.setRoleId(role.getId());
+            userRequest.setEmail(request.getEmail());
             User user = userService.creerUser(userRequest);
+            userRepository.save(user);
 
             Docteur doctor = new Docteur();
             doctor.setNom(request.getNom());
@@ -85,7 +87,7 @@ public class DocteurServiceImpl implements DocteurService {
                     .orElseThrow(() -> new MedecinIntrouvableException("Médecin introuvable."));
             return releveMedicaleRepository.findByDoctorId(doctorId)
                     .stream()
-                    .map(r -> r.getPatient())
+                    .map(releve -> releve.getPatient())
                     .distinct()
                     .map(DocteurMapper::toCreerPatientResponse)
                     .toList();

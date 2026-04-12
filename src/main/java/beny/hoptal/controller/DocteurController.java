@@ -21,31 +21,31 @@ public class DocteurController {
         this.docteurService = doctorService;
     }
 
-    @PostMapping
+    @PostMapping("/creer-docteur")
     public ResponseEntity<APIResponse<CreerDocteurResponse>> creerDoctor(
             @RequestBody CreerDocteurRequest request) {
         CreerDocteurResponse creerDocteurResponse = docteurService.creerDoctor(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, creerDocteurResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte Docteur cree avec succes", creerDocteurResponse));
     }
 
     @GetMapping("/{doctorId}")
     public ResponseEntity<APIResponse<CreerDocteurResponse>> getDoctorById(
             @PathVariable Long doctorId) {
         CreerDocteurResponse creerDocteurResponse = docteurService.getDoctorById(doctorId);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, creerDocteurResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("succes", creerDocteurResponse));
     }
 
     @GetMapping("/{doctorId}/patients")
     public ResponseEntity<APIResponse<List<CreerPatientResponse>>> getPatientsDoctor(
             @PathVariable Long doctorId) {
         List<CreerPatientResponse> creerPatientResponse = docteurService.getPatientsDoctor(doctorId);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, creerPatientResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("succes", creerPatientResponse));
     }
 
     @GetMapping("/search")
     public ResponseEntity<APIResponse<List<CreerDocteurResponse>>> rechercherDoctor(
             @RequestParam String query) {
         List<CreerDocteurResponse> creerDocteur = docteurService.rechercherDoctor(query);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, creerDocteur));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("trouve", creerDocteur));
     }
 }

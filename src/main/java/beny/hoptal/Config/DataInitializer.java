@@ -49,7 +49,7 @@ public class DataInitializer implements CommandLineRunner {
         Specialite special = new Specialite();
         if (specialiteRepository.count() == 0) {
             Specialite specialite = new Specialite();
-            specialite.setId(specialite.getId());
+            //specialite.setId(specialite.getId());
             specialite.setNom("Médecine Générale");
             specialite.setDescription("Médecine générale");
             specialite.setCode("MG");
@@ -79,7 +79,7 @@ public class DataInitializer implements CommandLineRunner {
             departement.setTypeDepartement(TypeDepartement.MEDICAL);
             departement.setDescription("Département de médecine interne");
             departement.setHopital(hopital);
-            departement.setId(departement.getId());
+            //departement.setId(departement.getId());
             depart = departementRepository.save(departement);
             System.out.println("==> Departement created with id : " + departement.getId());
         }

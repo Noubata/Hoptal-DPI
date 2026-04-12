@@ -18,6 +18,7 @@ public class Hopital {
     private String nomDuHopital;
     @Enumerated(EnumType.STRING)
     private TypeHopital typeHopital;
+    private String pays;
     private String adresse;
     private Ville ville;
     private String phoneNumber;

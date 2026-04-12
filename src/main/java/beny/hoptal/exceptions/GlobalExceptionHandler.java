@@ -54,11 +54,11 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(CompteDesactiveException.class)
     public ResponseEntity<String> handleCompteDesactiveException(Exception error) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error.getMessage());
     }
     @ExceptionHandler(NumeroLicenceExisteDeja.class)
     public ResponseEntity<String> handleNumeroLicenceExisteDeja(Exception error) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error.getMessage());
     }
     @ExceptionHandler(SpecialiteIntrouvable.class)
     public ResponseEntity<String> handleSpecialiteIntrouvableException(Exception error) {
@@ -82,6 +82,6 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(AllergieDecterException.class)
     public ResponseEntity<String> handleAllergieDecterException(Exception error) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error.getMessage());
+        return ResponseEntity.status(HttpStatus.FOUND).body(error.getMessage());
     }
 }

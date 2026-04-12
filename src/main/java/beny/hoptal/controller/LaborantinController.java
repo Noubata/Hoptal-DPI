@@ -26,14 +26,14 @@ public class LaborantinController {
     public ResponseEntity<APIResponse<CreerLaborantinResponse>> creerLaborantin(
             @RequestBody CreerLaborantinRequest request) {
         CreerLaborantinResponse response = laborantinService.creerLaborantin(request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, response));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte laborantin cree avec succes", response));
     }
 
     @GetMapping("/{laborantinId}/demandes-en-attente")
     public ResponseEntity<APIResponse<List<ResultatDuLaboResponse>>> getDemandesEnAttente(
             @PathVariable Long laborantinId) {
         List<ResultatDuLaboResponse> result = laborantinService.getDemandesEnAttente(laborantinId);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, result));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("succes", result));
     }
 
     @PutMapping("/resultats/{resultatId}/saisir")
@@ -41,6 +41,6 @@ public class LaborantinController {
             @PathVariable Long resultatId,
             @RequestBody SaisirResultatRequest request) {
         ResultatDuLaboResponse resultatDuLaboResponse = laborantinService.saisirResultat(resultatId, request);
-        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>(true, resultatDuLaboResponse));
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("succes", resultatDuLaboResponse));
     }
 }

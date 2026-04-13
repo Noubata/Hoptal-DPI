@@ -24,11 +24,8 @@ import java.time.LocalDateTime;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final RoleRepository roleRepository;
-
     private final JwtService jwtService;
-
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, JwtService jwtService, BCryptPasswordEncoder passwordEncoder) {
@@ -72,11 +69,16 @@ public class UserServiceImpl implements UserService {
 
         User user = new User();
         user.setNomUtilisateur(request.getNomUtilisateur());
+        user.setEmail(request.getEmail());
         user.setMotDePasseHashe(passwordEncoder.encode(request.getMotDePasse()));
         user.setRole(role);
         user.setActif(true);
         user.setDateCreation(LocalDateTime.now());
-        return userRepository.save(user);
+        System.out.println("==> Email reçu : " + request.getEmail());
+        System.out.println("==> User email avant save : " + user.getEmail());
+        User saved = userRepository.save(user);
+        System.out.println("==> User email après save : " + saved.getEmail());
+        return saved;
     }
 
     @Transactional

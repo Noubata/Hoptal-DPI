@@ -21,6 +21,7 @@ public class User {
     private String nomUtilisateur;
     private String motDePasseHashe;
     private Boolean actif;
+    private String email;
     private LocalDateTime dateCreation;
     @ManyToOne
     private Role role;

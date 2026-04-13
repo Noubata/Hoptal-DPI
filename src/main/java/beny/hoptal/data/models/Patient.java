@@ -21,6 +21,7 @@ public class Patient {
     private String numeroDossier;
     private String nom;
     private String prenom;
+    private String nomUtilisateur;
     private String numeroDeTelephone;
     private LocalDate dateDeNaissance;
     @Enumerated(EnumType.STRING)

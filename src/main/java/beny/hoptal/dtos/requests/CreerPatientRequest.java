@@ -23,6 +23,7 @@ public class CreerPatientRequest {
     private TypeSang typeSang;
     private String nomContactUrgence;
     private String telephoneContactUrgence;
+    private String emailContactUrgence;
     private Long hopitalId;
     // User account
     private String nomUtilisateur;

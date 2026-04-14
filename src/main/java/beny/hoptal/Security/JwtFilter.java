@@ -46,8 +46,6 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 3. Extract token
         String token = authHeader.substring(7);
-
-        // 4. Extract username from token
         String nomUtilisateur = jwtService.extractUsername(token);
 
         // 5. If username found and no authentication set yet

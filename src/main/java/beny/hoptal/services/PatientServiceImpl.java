@@ -51,6 +51,10 @@ public class PatientServiceImpl implements PatientService {
         @Override
         public CreerPatientResponse creerPatient(CreerPatientRequest request) {
 
+            if (request.getHopitalId() == null) {
+                throw new IllegalArgumentException("L'ID de l'hôpital ne peut pas être nul.");
+            }
+
             Hopital hopital = hopitalRepository.findById(request.getHopitalId())
                     .orElseThrow(() -> new RuntimeException("Hôpital introuvable."));
 

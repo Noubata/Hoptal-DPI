@@ -1,5 +1,5 @@
 package beny.hoptal.data.models;
 
 public enum Genre {
-MASCULIN, FEMININ, AUTRE
+MASCULIN, FEMININ, AUTRE,HOMME,FEMME
 }

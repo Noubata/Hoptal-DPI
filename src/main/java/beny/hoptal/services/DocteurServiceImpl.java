@@ -43,16 +43,16 @@ public class DocteurServiceImpl implements DocteurService {
         @Transactional
         @Override
         public CreerDocteurResponse creerDoctor(CreerDocteurRequest request) {
-
+            System.out.println("CREATE DOCTOR METHOD CALLED");
             if (docteurRepository.findByNumeroDeLicence(request.getNumeroDeLicence()).isPresent()) {
                 throw new NumeroLicenceExisteDeja("Un médecin avec le numéro de licence '"
                         + request.getNumeroDeLicence() + "' existe déjà.");
             }
 
-            Specialite specialite = specialiteRepository.findByNom(request.getNom())
-                   .orElseThrow(() -> new SpecialiteIntrouvable("Spécialité introuvable."));
+            Specialite specialite = specialiteRepository.findById(request.getSpecialiteId())
+                    .orElseThrow(() -> new SpecialiteIntrouvable("Spécialité introuvable."));
 
-            Departement departement = departementRepository.findByNom(request.getNom())
+            Departement departement = departementRepository.findById(request.getDepartementId())
                     .orElseThrow(() -> new DepartementIntrouvableException("Département introuvable."));
 
             Role role = roleRepository.findByNom("DOCTOR")
@@ -64,7 +64,7 @@ public class DocteurServiceImpl implements DocteurService {
             userRequest.setRoleId(role.getId());
             userRequest.setEmail(request.getEmail());
             User user = userService.creerUser(userRequest);
-            userRepository.save(user);
+            //userRepository.save(user);
 
             Docteur doctor = new Docteur();
             doctor.setNom(request.getNom());
@@ -103,6 +103,7 @@ public class DocteurServiceImpl implements DocteurService {
         public CreerDocteurResponse getDoctorById(Long doctorId) {
             Docteur docteur = docteurRepository.findById(doctorId)
                     .orElseThrow(() -> new MedecinIntrouvableException("Médecin introuvable."));
+            System.out.println("ABOUT TO SAVE DOCTOR");
             return DocteurMapper.toCreerDocteurResponse(docteur);
         }
 

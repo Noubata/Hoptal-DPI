@@ -21,7 +21,7 @@ public class PatientController {
         this.patientService = patientService;
     }
 
-    @PostMapping("/creer")
+    @PostMapping("/creerPatient")
     public ResponseEntity<APIResponse<CreerPatientResponse>> creerPatient(
             @RequestBody CreerPatientRequest request) {
         CreerPatientResponse creerPatientResponse = patientService.creerPatient(request);

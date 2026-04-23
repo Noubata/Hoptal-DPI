@@ -25,7 +25,6 @@ public class CreerPatientRequest {
     private String telephoneContactUrgence;
     private String emailContactUrgence;
     private Long hopitalId;
-    // User account
     private String nomUtilisateur;
     private String motDePasse;
 }

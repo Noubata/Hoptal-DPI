@@ -33,45 +33,39 @@ public class JwtFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
 
-        // 1. Get Authorization header
-        System.out.println("JwtFilter called for: " + request.getRequestURI());
-
         String authHeader = request.getHeader("Authorization");
-        System.out.println("Auth header: " + authHeader);
-        // 2. If no token — skip filter, Spring Security will block if route is protected
+        System.out.println("==> URI: " + request.getRequestURI());
+        System.out.println("==> Auth header: " + authHeader);
+
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            System.out.println("==> Pas de token — skip");
             filterChain.doFilter(request, response);
             return;
         }
 
-        // 3. Extract token
         String token = authHeader.substring(7);
         String nomUtilisateur = jwtService.extractUsername(token);
+        System.out.println("==> Username extrait: " + nomUtilisateur);
 
-        // 5. If username found and no authentication set yet
         if (nomUtilisateur != null &&
                 SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            // 6. Load user from database
-            User user = userRepository.findByNomUtilisateur(nomUtilisateur)
-                    .orElse(null);
+            User user = userRepository.findByNomUtilisateur(nomUtilisateur).orElse(null);
+            System.out.println("==> User trouvé: " + (user != null ? user.getNomUtilisateur() : "NULL"));
 
             if (user != null && jwtService.isTokenValid(token, nomUtilisateur)) {
-
-                // 7. Build authentication with role
+                System.out.println("==> Token valide — authentification OK");
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                                 user,
                                 null,
-                                List.of(new SimpleGrantedAuthority(
-                                        "ROLE_" + user.getRole().getNom()))
+                                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getNom()))
                         );
-
                 authentication.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request));
-
-                // 8. Set authentication in context
                 SecurityContextHolder.getContext().setAuthentication(authentication);
+            } else {
+                System.out.println("==> Token INVALIDE ou user NULL");
             }
         }
 

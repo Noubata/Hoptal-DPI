@@ -14,6 +14,8 @@ public interface LaborantinService {
 
     List<ResultatDuLaboResponse> getDemandesEnAttente(Long laborantinId);
 
+    List<CreerLaborantinResponse> getAllLaborantins();
+
     @Transactional
     ResultatDuLaboResponse saisirResultat(Long laborantinId, SaisirResultatRequest request);
 }

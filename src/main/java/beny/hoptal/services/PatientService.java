@@ -1,5 +1,6 @@
 package beny.hoptal.services;
 
+import beny.hoptal.data.models.Patient;
 import beny.hoptal.dtos.requests.AjouterAllergieRequest;
 import beny.hoptal.dtos.requests.AjouterAntecedentRequest;
 import beny.hoptal.dtos.requests.CreerPatientRequest;
@@ -17,7 +18,11 @@ public interface PatientService {
 
     DossierCompletResponse getDossierComplet(Long patientId);
 
-    List<CreerPatientResponse> rechercherPatient(String query);
+//    List<CreerPatientResponse> rechercherPatient(String query);
+
+    List<CreerPatientResponse> rechercherPatient();
+
+    List<CreerPatientResponse> getRecentPatients();
 
     @Transactional
     AjouterAllergieResponse ajouterAllergie(Long patientId,

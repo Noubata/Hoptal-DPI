@@ -29,6 +29,13 @@ public class LaborantinController {
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte laborantin cree avec succes", response));
     }
 
+    @GetMapping
+    public ResponseEntity<APIResponse<List<CreerLaborantinResponse>>> getAllLaborantins() {
+        List<CreerLaborantinResponse> laborantins = laborantinService.getAllLaborantins();
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new APIResponse<>("succes", laborantins));
+    }
+
     @GetMapping("/{laborantinId}/demandes-en-attente")
     public ResponseEntity<APIResponse<List<ResultatDuLaboResponse>>> getDemandesEnAttente(
             @PathVariable Long laborantinId) {

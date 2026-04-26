@@ -27,6 +27,11 @@ public class PatientController {
         CreerPatientResponse creerPatientResponse = patientService.creerPatient(request);
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte patient avec succes", creerPatientResponse));
     }
+    @GetMapping("/recent")
+    public ResponseEntity<APIResponse<List<CreerPatientResponse>>> getRecentPatients() {
+        List<CreerPatientResponse> creerPatientResponse = patientService.getRecentPatients();
+        return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Derniers Patients", creerPatientResponse));
+    }
 
     @GetMapping("/{patientId}")
     public ResponseEntity<APIResponse<CreerPatientResponse>> getPatient(
@@ -45,7 +50,7 @@ public class PatientController {
     @GetMapping("/search")
     public ResponseEntity<APIResponse<List<CreerPatientResponse>>> rechercherPatient(
             @RequestParam String query) {
-        List<CreerPatientResponse> resultat = patientService.rechercherPatient(query);
+        List<CreerPatientResponse> resultat = patientService.rechercherPatient();
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Succes", resultat));
     }
 

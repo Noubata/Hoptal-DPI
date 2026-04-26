@@ -74,6 +74,16 @@ public class PatientMapper {
         return response;
     }
 
+    public static CreerPatientResponse toResponseRecentPatients(Patient patient) {
+        CreerPatientResponse response = new CreerPatientResponse();
+
+        response.setNom(patient.getNom());
+        response.setPrenom(patient.getPrenom());
+        response.setEmail(patient.getEmail());
+        response.setNumeroDossier(patient.getNumeroDossier());
+
+        return response;
+    }
     public static ResultatDuLaboResponse toResultatResponse(ResultatLabo resultatLabo) {
         ResultatDuLaboResponse response = new ResultatDuLaboResponse();
         response.setId(resultatLabo.getId());

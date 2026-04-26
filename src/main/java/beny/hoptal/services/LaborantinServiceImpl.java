@@ -79,6 +79,13 @@ public class LaborantinServiceImpl implements LaborantinService {
                     .map(LaborantinMapper::toSaisirResultatResponse)
                     .toList();
         }
+        @Override
+        public List<CreerLaborantinResponse> getAllLaborantins() {
+            return laborantinRepository.findAll()
+                .stream()
+                .map(LaborantinMapper::toCreerLaborantinResponse)
+                .toList();
+        }
 
         @Transactional
         @Override

@@ -34,41 +34,40 @@ public class JwtFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = request.getHeader("Authorization");
-        System.out.println("==> URI: " + request.getRequestURI());
-        System.out.println("==> Auth header: " + authHeader);
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            System.out.println("==> Pas de token — skip");
             filterChain.doFilter(request, response);
             return;
         }
 
         String token = authHeader.substring(7);
-        String nomUtilisateur = jwtService.extractUsername(token);
-        System.out.println("==> Username extrait: " + nomUtilisateur);
 
-        if (nomUtilisateur != null &&
-                SecurityContextHolder.getContext().getAuthentication() == null) {
+        try {
+            String nomUtilisateur = jwtService.extractUsername(token);
 
-            User user = userRepository.findByNomUtilisateur(nomUtilisateur).orElse(null);
-            System.out.println("==> User trouvé: " + (user != null ? user.getNomUtilisateur() : "NULL"));
+            if (nomUtilisateur != null &&
+                    SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            if (user != null && jwtService.isTokenValid(token, nomUtilisateur)) {
-                System.out.println("==> Token valide — authentification OK");
-                UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(
-                                user,
-                                null,
-                                List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getNom()))
-                        );
-                authentication.setDetails(
-                        new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authentication);
-            } else {
-                System.out.println("==> Token INVALIDE ou user NULL");
+                User user = userRepository.findByNomUtilisateur(nomUtilisateur).orElse(null);
+
+                if (user != null && jwtService.isTokenValid(token, nomUtilisateur)) {
+                    UsernamePasswordAuthenticationToken authentication =
+                            new UsernamePasswordAuthenticationToken(
+                                    user,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority("ROLE_" + user.getRole().getNom()))
+                            );
+                    authentication.setDetails(
+                            new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
+        } catch (io.jsonwebtoken.ExpiredJwtException e) {
+            // Token expiré — laisser Spring Security rejeter la requête proprement
+            System.out.println("==> Token expiré pour : " + request.getRequestURI());
+        } catch (Exception e) {
+            System.out.println("==> Erreur JWT : " + e.getMessage());
         }
-
         filterChain.doFilter(request, response);
     }
 }

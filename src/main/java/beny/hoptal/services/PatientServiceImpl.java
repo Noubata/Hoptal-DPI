@@ -142,11 +142,22 @@ public class PatientServiceImpl implements PatientService {
             return dossier;
         }
         @Override
-        public List<CreerPatientResponse> rechercherPatient(String query) {
-            List<Patient> toSearch = patientRepository.findByNom(query);
+        public List<CreerPatientResponse> rechercherPatient() {
+            List<Patient> toSearch = patientRepository.findAll();
             return toSearch
                     .stream()
                     .map(PatientMapper::toCreerPatientResponse)
+                    .toList();
+        }
+        @Override
+        public List<CreerPatientResponse> getRecentPatients() {
+
+            List<Patient> patients = patientRepository.findTop5ByOrderByIdDesc();
+            if (patients == null || patients.isEmpty()) {
+                throw new PatientIntrouvable("Aucun patient trouvé.");
+            }
+            return patients.stream()
+                    .map(PatientMapper::toResponseRecentPatients)
                     .toList();
         }
 

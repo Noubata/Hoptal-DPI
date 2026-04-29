@@ -32,7 +32,7 @@ public class JwtFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-
+        System.out.println("==> REQUEST: " + request.getRequestURI() + " | Auth header: " + request.getHeader("Authorization"));
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -60,6 +60,15 @@ public class JwtFilter extends OncePerRequestFilter {
                     authentication.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    // ADD THIS
+                    System.out.println("==> AUTH FAILED for: " + request.getRequestURI());
+                    System.out.println("==> user null? " + (user == null));
+                    if (user != null) {
+                        System.out.println("==> token valid? " + jwtService.isTokenValid(token, nomUtilisateur));
+                        System.out.println("==> nomUtilisateur from token: " + nomUtilisateur);
+                        System.out.println("==> nomUtilisateur from DB: " + user.getNomUtilisateur());
+                    }
                 }
             }
         } catch (io.jsonwebtoken.ExpiredJwtException e) {

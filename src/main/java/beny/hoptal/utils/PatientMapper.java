@@ -77,10 +77,19 @@ public class PatientMapper {
     public static CreerPatientResponse toResponseRecentPatients(Patient patient) {
         CreerPatientResponse response = new CreerPatientResponse();
 
+        response.setId(patient.getId());
+        response.setAdresse(patient.getAdresse());
+        response.setDateDeNaissance(patient.getDateDeNaissance());
         response.setNom(patient.getNom());
         response.setPrenom(patient.getPrenom());
         response.setEmail(patient.getEmail());
         response.setNumeroDossier(patient.getNumeroDossier());
+        response.setTelephone(patient.getNumeroDeTelephone());
+        response.setNomUtilisateur(patient.getUser().getNomUtilisateur());
+        response.setTypeSang(patient.getTypeSang());
+        response.setGenre(patient.getGenre());
+        response.setDateDeNaissance(patient.getDateDeNaissance());
+        response.setStatus(patient.getStatusPatient());
 
         return response;
     }

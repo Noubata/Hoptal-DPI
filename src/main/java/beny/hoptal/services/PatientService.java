@@ -24,6 +24,8 @@ public interface PatientService {
 
     List<CreerPatientResponse> getRecentPatients();
 
+    List<CreerPatientResponse> getAllPatients();
+
     @Transactional
     AjouterAllergieResponse ajouterAllergie(Long patientId,
                                             AjouterAllergieRequest request);

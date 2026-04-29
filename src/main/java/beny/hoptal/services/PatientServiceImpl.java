@@ -75,6 +75,8 @@ public class PatientServiceImpl implements PatientService {
             patient.setPrenom(request.getPrenom());
             patient.setDateDeNaissance(request.getDateDeNaissance());
             patient.setGenre(request.getGenre());
+            patient.setNomUtilisateur(request.getNomUtilisateur());
+            patient.setEmailContactUrgence(request.getEmailContactUrgence());
             patient.setAdresse(request.getAdresse());
             patient.setNumeroDeTelephone(request.getTelephone());
             patient.setEmail(request.getEmail());
@@ -161,6 +163,16 @@ public class PatientServiceImpl implements PatientService {
                     .toList();
         }
 
+        @Override
+        public List<CreerPatientResponse> getAllPatients() {
+            List<Patient> patients = patientRepository.findAll();
+            if (patients == null || patients.isEmpty()) {
+                throw new PatientIntrouvable("Aucun patient trouvé.");
+            }
+            return patients.stream()
+                    .map(PatientMapper::toResponseRecentPatients)
+                    .toList();
+        }
         @Transactional
         @Override
         public AjouterAllergieResponse ajouterAllergie(Long patientId,

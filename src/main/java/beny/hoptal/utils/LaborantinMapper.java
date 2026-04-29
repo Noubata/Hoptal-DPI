@@ -14,6 +14,7 @@ public class LaborantinMapper {
         response.setNumeroDeTelephone(laborantin.getNumeroDeTelephone());
         response.setEmail(laborantin.getEmail());
         response.setServiceNom(laborantin.getService().getNom());
+        response.setUserId(laborantin.getUser().getId());
         response.setNomUtilisateur(laborantin.getUser().getNomUtilisateur());
         return response;
     }

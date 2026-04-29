@@ -10,13 +10,16 @@ import beny.hoptal.dtos.requests.CreerUserRequest;
 import beny.hoptal.dtos.requests.SaisirResultatRequest;
 import beny.hoptal.dtos.responses.CreerLaborantinResponse;
 import beny.hoptal.dtos.responses.ResultatDuLaboResponse;
+import beny.hoptal.dtos.responses.ServiceResponse;
 import beny.hoptal.exceptions.*;
+import beny.hoptal.utils.ServiceMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import beny.hoptal.utils.LaborantinMapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LaborantinServiceImpl implements LaborantinService {
@@ -66,6 +69,14 @@ public class LaborantinServiceImpl implements LaborantinService {
 
             return LaborantinMapper.toCreerLaborantinResponse(toSave);
         }
+        @Override
+        public List<ServiceResponse> getAllServices() {
+            return serviceRepository.findAll()
+                    .stream()
+                    .map(ServiceMapper::toResponse)
+                    .collect(Collectors.toList());
+        }
+
         @Override
         public List<ResultatDuLaboResponse> getDemandesEnAttente(Long laborantinId) {
 

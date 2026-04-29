@@ -5,6 +5,7 @@ import beny.hoptal.dtos.requests.SaisirResultatRequest;
 import beny.hoptal.dtos.responses.APIResponse;
 import beny.hoptal.dtos.responses.CreerLaborantinResponse;
 import beny.hoptal.dtos.responses.ResultatDuLaboResponse;
+import beny.hoptal.dtos.responses.ServiceResponse;
 import beny.hoptal.services.LaborantinService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,14 +23,20 @@ public class LaborantinController {
         this.laborantinService = laborantinService;
     }
 
-    @PostMapping
+    @PostMapping("/creer-laborantin")
     public ResponseEntity<APIResponse<CreerLaborantinResponse>> creerLaborantin(
             @RequestBody CreerLaborantinRequest request) {
         CreerLaborantinResponse response = laborantinService.creerLaborantin(request);
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte laborantin cree avec succes", response));
     }
 
-    @GetMapping
+    @GetMapping("/api/services")
+    public ResponseEntity<APIResponse<List<ServiceResponse>>> getServices() {
+        List<ServiceResponse> services = laborantinService.getAllServices();
+        return ResponseEntity.ok(new APIResponse<>("Services récupérés", services));
+    }
+
+    @GetMapping("/getLaborantins")
     public ResponseEntity<APIResponse<List<CreerLaborantinResponse>>> getAllLaborantins() {
         List<CreerLaborantinResponse> laborantins = laborantinService.getAllLaborantins();
         return ResponseEntity.status(HttpStatus.OK)

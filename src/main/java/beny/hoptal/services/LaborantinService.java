@@ -4,6 +4,7 @@ import beny.hoptal.dtos.requests.CreerLaborantinRequest;
 import beny.hoptal.dtos.requests.SaisirResultatRequest;
 import beny.hoptal.dtos.responses.CreerLaborantinResponse;
 import beny.hoptal.dtos.responses.ResultatDuLaboResponse;
+import beny.hoptal.dtos.responses.ServiceResponse;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.List;
 public interface LaborantinService {
     @Transactional
     CreerLaborantinResponse creerLaborantin(CreerLaborantinRequest request);
+
+    List<ServiceResponse> getAllServices();
 
     List<ResultatDuLaboResponse> getDemandesEnAttente(Long laborantinId);
 

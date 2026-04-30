@@ -8,11 +8,12 @@ import beny.hoptal.dtos.responses.CreerDocteurResponse;
 import beny.hoptal.dtos.responses.CreerPatientResponse;
 import beny.hoptal.exceptions.*;
 import beny.hoptal.utils.DocteurMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+@Slf4j
 @Service
 public class DocteurServiceImpl implements DocteurService {
 
@@ -93,8 +94,8 @@ public class DocteurServiceImpl implements DocteurService {
                     .toList();
         }
         @Override
-        public List<CreerDocteurResponse> rechercherDoctor(String query) {
-            return docteurRepository.findByNom(query)
+        public List<CreerDocteurResponse> rechercherDoctor() {
+            return docteurRepository.findAll()
                     .stream()
                     .map(DocteurMapper::toCreerDocteurResponse)
                     .toList();

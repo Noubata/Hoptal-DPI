@@ -11,7 +11,9 @@ public interface DocteurService {
 
     List<CreerPatientResponse> getPatientsDoctor(Long doctorId);
 
-    List<CreerDocteurResponse> rechercherDoctor(String query);
+    //List<CreerDocteurResponse> rechercherDoctor(String query);
+
+    List<CreerDocteurResponse> rechercherDoctor();
 
     CreerDocteurResponse getDoctorById(Long doctorId);
 }

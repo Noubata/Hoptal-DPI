@@ -11,16 +11,35 @@ public class DocteurMapper {
         CreerDocteurResponse response = new CreerDocteurResponse();
         response.setId(docteur.getId());
         response.setNom(docteur.getNom());
+        response.setUserId(docteur.getUser().getId());
         response.setPrenom(docteur.getPrenom());
         response.setNumeroDeLicence(docteur.getNumeroDeLicence());
         response.setNumeroDeTelephone(docteur.getNumeroDeTelephone());
         response.setEmail(docteur.getEmail());
         response.setDateEmbauche(docteur.getDateEmbauche());
-        response.setSpecialiteNom(docteur.getSpecialite().getNom());
-        response.setDepartementNom(docteur.getDepartement().getNom());
-        response.setNomUtilisateur(docteur.getUser().getNomUtilisateur());
+
+        // null-safe mappings
+        if (docteur.getSpecialite() != null) {
+            response.setSpecialiteNom(docteur.getSpecialite().getNom());
+        } else {
+            response.setSpecialiteNom(null); // or a default label
+        }
+
+        if (docteur.getDepartement() != null) {
+            response.setDepartementNom(docteur.getDepartement().getNom());
+        } else {
+            response.setDepartementNom(null);
+        }
+
+        if (docteur.getUser() != null) {
+            response.setNomUtilisateur(docteur.getUser().getNomUtilisateur());
+        } else {
+            response.setNomUtilisateur(null);
+        }
+
         return response;
     }
+
     public static CreerPatientResponse toCreerPatientResponse(Patient patient) {
         CreerPatientResponse response = new CreerPatientResponse();
         response.setId(patient.getId());

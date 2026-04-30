@@ -43,9 +43,8 @@ public class DocteurController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<APIResponse<List<CreerDocteurResponse>>> rechercherDoctor(
-            @RequestParam String query) {
-        List<CreerDocteurResponse> creerDocteur = docteurService.rechercherDoctor(query);
+    public ResponseEntity<APIResponse<List<CreerDocteurResponse>>> rechercherDoctor() {
+        List<CreerDocteurResponse> creerDocteur = docteurService.rechercherDoctor();
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("trouve", creerDocteur));
     }
 }

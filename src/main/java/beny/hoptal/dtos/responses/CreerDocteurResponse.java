@@ -11,6 +11,7 @@ public class CreerDocteurResponse {
     private String numeroDeLicence;
     private String numeroDeTelephone;
     private String email;
+    private Long userId;
     private LocalDate dateEmbauche;
     private String specialiteNom;
     private String departementNom;

@@ -15,7 +15,6 @@ public class CreerLaborantinRequest {
     private String numeroDeTelephone;
     private String email;
     private Long serviceId;
-    // User account
     private String nomUtilisateur;
     private String motDePasse;
 }

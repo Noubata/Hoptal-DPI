@@ -11,6 +11,7 @@ public class CreerLaborantinResponse {
     private Long id;
     private String nom;
     private String prenom;
+    private Long UserId;
     private String numeroDeTelephone;
     private String email;
     private String serviceNom;

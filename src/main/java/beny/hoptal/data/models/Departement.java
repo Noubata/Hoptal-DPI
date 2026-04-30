@@ -1,5 +1,6 @@
 package beny.hoptal.data.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class Departement {
     private Hopital hopital;
     private String description;
     @OneToMany(mappedBy = "departement")
+    @JsonIgnore
     private List<Service> services;
 
 }

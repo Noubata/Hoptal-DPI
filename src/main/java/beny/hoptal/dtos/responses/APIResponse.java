@@ -17,7 +17,5 @@ public class APIResponse<Object> {
         this.message = message;
         this.data = data;
         this.status= data!=null;
-
-
     }
 }

@@ -40,4 +40,6 @@ public interface PatientService {
     List<AjouterAllergieResponse> getAllergies(Long patientId);
 
     List<AjouterAntecedentResponse> getAntecedents(Long patientId);
+
+    DossierCompletResponse getDossierCompletParUser(Long userId);
 }

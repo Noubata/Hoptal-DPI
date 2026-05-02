@@ -14,4 +14,5 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
     List<Patient> findByHopitalId(@Param("hopitalId") Long hopitalId);
     List<Patient> findByNom(@Param("nom") String nom);
     List<Patient> findTop5ByOrderByIdDesc();
+    Optional<Patient> findByUserId(Long userId);
 }

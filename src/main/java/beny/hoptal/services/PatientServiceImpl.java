@@ -235,8 +235,20 @@ public class PatientServiceImpl implements PatientService {
                 .map(PatientMapper::toAntecedentResponse)
                 .toList();
     }
+    @Override
+    public DossierCompletResponse getDossierCompletParUser(Long userId) {
+        Patient patient = patientRepository.findByUserId(userId)
+                .orElseThrow(() -> new PatientIntrouvable("Patient introuvable."));
+        return getDossierCompletPourPatient(patient);
+    }
 
-        private String genererNumeroDossier() {
+    private DossierCompletResponse getDossierCompletPourPatient(Patient patient) {
+            patientRepository.findById(patient.getId())
+                .orElseThrow(() -> new PatientIntrouvable("Patient introuvable."));
+            return getDossierComplet(patient.getId());
+    }
+
+    private String genererNumeroDossier() {
             int annee = Year.now().getValue();
             long count = patientRepository.count() + 1;
             return String.format("DPI-%d-%05d", annee, count);

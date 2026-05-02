@@ -4,6 +4,7 @@ import beny.hoptal.data.models.*;
 import beny.hoptal.data.repositories.*;
 import beny.hoptal.dtos.requests.CreerDocteurRequest;
 import beny.hoptal.dtos.requests.CreerUserRequest;
+import beny.hoptal.dtos.requests.UpdateDoctorRequest;
 import beny.hoptal.dtos.responses.CreerDocteurResponse;
 import beny.hoptal.dtos.responses.CreerPatientResponse;
 import beny.hoptal.exceptions.*;
@@ -80,6 +81,32 @@ public class DocteurServiceImpl implements DocteurService {
 
             return DocteurMapper.toCreerDocteurResponse(docteurRepository.save(doctor));
         }
+
+    @Transactional
+    @Override
+    public CreerDocteurResponse updateDoctor(Long doctorId, UpdateDoctorRequest request) {
+        Docteur docteur = docteurRepository.findById(doctorId)
+                .orElseThrow(() -> new MedecinIntrouvableException("Médecin introuvable."));
+
+        if (request.getNom() != null) docteur.setNom(request.getNom());
+        if (request.getPrenom() != null) docteur.setPrenom(request.getPrenom());
+        if (request.getNumeroDeTelephone() != null) docteur.setNumeroDeTelephone(request.getNumeroDeTelephone());
+        if (request.getEmail() != null) docteur.setEmail(request.getEmail());
+
+        if (request.getSpecialiteId() != null) {
+            Specialite specialite = specialiteRepository.findById(request.getSpecialiteId())
+                    .orElseThrow(() -> new SpecialiteIntrouvable("Spécialité introuvable."));
+            docteur.setSpecialite(specialite);
+        }
+
+        if (request.getDepartementId() != null) {
+            Departement departement = departementRepository.findById(request.getDepartementId())
+                    .orElseThrow(() -> new DepartementIntrouvableException("Département introuvable."));
+            docteur.setDepartement(departement);
+        }
+
+        return DocteurMapper.toCreerDocteurResponse(docteurRepository.save(docteur));
+    }
 
         @Override
         public List<CreerPatientResponse> getPatientsDoctor(Long doctorId) {

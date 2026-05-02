@@ -1,6 +1,7 @@
 package beny.hoptal.controller;
 
 import beny.hoptal.dtos.requests.CreerDocteurRequest;
+import beny.hoptal.dtos.requests.UpdateDoctorRequest;
 import beny.hoptal.dtos.responses.APIResponse;
 import beny.hoptal.dtos.responses.CreerDocteurResponse;
 import beny.hoptal.dtos.responses.CreerPatientResponse;
@@ -26,6 +27,15 @@ public class DocteurController {
             @RequestBody CreerDocteurRequest request) {
         CreerDocteurResponse creerDocteurResponse = docteurService.creerDoctor(request);
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte Docteur cree avec succes", creerDocteurResponse));
+    }
+
+    @PutMapping("/{doctorId}")
+    public ResponseEntity<APIResponse<CreerDocteurResponse>> updateDoctor(
+            @PathVariable Long doctorId,
+            @RequestBody UpdateDoctorRequest request) {
+        CreerDocteurResponse response = docteurService.updateDoctor(doctorId, request);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new APIResponse<>("Médecin mis à jour avec succès", response));
     }
 
     @GetMapping("/{doctorId}")

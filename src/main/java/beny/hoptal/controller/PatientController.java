@@ -28,6 +28,14 @@ public class PatientController {
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Compte patient avec succes", creerPatientResponse));
     }
 
+    @GetMapping("/par-user/{userId}/dossier-complet")
+    public ResponseEntity<APIResponse<DossierCompletResponse>> getDossierCompletParUser(
+            @PathVariable Long userId) {
+        DossierCompletResponse dossierCompletResponse = patientService.getDossierCompletParUser(userId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new APIResponse<>("ok", dossierCompletResponse));
+    }
+
     @GetMapping("/allPatients")
     public ResponseEntity<APIResponse<List<CreerPatientResponse>>> getAllPatients() {
         List<CreerPatientResponse> creerPatientResponse = patientService.getAllPatients();

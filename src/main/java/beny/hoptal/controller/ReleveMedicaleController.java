@@ -24,6 +24,7 @@ public class ReleveMedicaleController {
     @PostMapping
     public ResponseEntity<APIResponse<CreerReleveMedicaleResponse>> creerReleve(
             @RequestBody CreerReleveMedicaleRequest request) {
+        System.out.println("==> creerReleve appelé avec patientId: " + request.getPatientId() + " doctorId: " + request.getDoctorId());
         CreerReleveMedicaleResponse creerReleveMedicaleResponse = releveMedicaleService.creerReleve(request);
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Releve medical cree avec succes", creerReleveMedicaleResponse));
     }

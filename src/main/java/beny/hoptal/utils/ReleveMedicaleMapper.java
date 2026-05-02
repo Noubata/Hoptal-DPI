@@ -8,19 +8,24 @@ import beny.hoptal.data.repositories.ResultatLaboRepository;
 import beny.hoptal.dtos.responses.AjouterPrescriptionResponse;
 import beny.hoptal.dtos.responses.CreerReleveMedicaleResponse;
 import beny.hoptal.dtos.responses.ResultatDuLaboResponse;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component  // ← ajouter
 public class ReleveMedicaleMapper {
 
-    private static PrescriptionRepository prescriptionRepository;
-    private static ResultatLaboRepository resultatLaboRepository;
+    private final PrescriptionRepository prescriptionRepository;    // ← instance, pas static
+    private final ResultatLaboRepository resultatLaboRepository;    // ← instance, pas static
 
-    public ReleveMedicaleMapper(PrescriptionRepository prescriptionRepository,ResultatLaboRepository resultatLaboRepository) {
+    public ReleveMedicaleMapper(PrescriptionRepository prescriptionRepository,
+                                ResultatLaboRepository resultatLaboRepository) {
         this.prescriptionRepository = prescriptionRepository;
         this.resultatLaboRepository = resultatLaboRepository;
     }
-    public static AjouterPrescriptionResponse toAjouterPrescriptionResponse(Prescription p) {
+
+    // ← supprimer "static" sur toutes les méthodes
+    public AjouterPrescriptionResponse toAjouterPrescriptionResponse(Prescription p) {
         AjouterPrescriptionResponse response = new AjouterPrescriptionResponse();
         response.setId(p.getId());
         response.setNomDuMedicament(p.getNomDuMedicament());
@@ -37,7 +42,8 @@ public class ReleveMedicaleMapper {
         response.setDoctorPrenom(p.getReleveMedicale().getDoctor().getPrenom());
         return response;
     }
-    public static ResultatDuLaboResponse toResultatDuLaboResponse(ResultatLabo resultatLabo) {
+
+    public ResultatDuLaboResponse toResultatDuLaboResponse(ResultatLabo resultatLabo) {
         ResultatDuLaboResponse response = new ResultatDuLaboResponse();
         response.setId(resultatLabo.getId());
         response.setNomDuTest(resultatLabo.getNomDuTest());
@@ -58,7 +64,8 @@ public class ReleveMedicaleMapper {
         }
         return response;
     }
-    public static CreerReleveMedicaleResponse toCreerReleveMedicaleResponse(ReleveMedicale r) {
+
+    public CreerReleveMedicaleResponse toCreerReleveMedicaleResponse(ReleveMedicale r) {
         CreerReleveMedicaleResponse response = new CreerReleveMedicaleResponse();
         response.setId(r.getId());
         response.setDiagnostic(r.getDiagnostic());
@@ -73,19 +80,17 @@ public class ReleveMedicaleMapper {
         response.setDoctorNom(r.getDoctor().getNom());
         response.setDoctorPrenom(r.getDoctor().getPrenom());
 
-        // Prescriptions
         List<AjouterPrescriptionResponse> prescriptions = prescriptionRepository
                 .findByReleveMedicaleId(r.getId())
                 .stream()
-                .map(ReleveMedicaleMapper::toAjouterPrescriptionResponse)
+                .map(this::toAjouterPrescriptionResponse)  // ← this:: pas ReleveMedicaleMapper::
                 .toList();
         response.setPrescriptions(prescriptions);
 
-        // Resultats
         List<ResultatDuLaboResponse> resultats = resultatLaboRepository
                 .findByReleveMedicaleId(r.getId())
                 .stream()
-                .map(ReleveMedicaleMapper::toResultatDuLaboResponse)
+                .map(this::toResultatDuLaboResponse)  // ← this:: pas ReleveMedicaleMapper::
                 .toList();
         response.setResultats(resultats);
 

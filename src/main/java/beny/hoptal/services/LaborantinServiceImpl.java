@@ -147,7 +147,6 @@ public class LaborantinServiceImpl implements LaborantinService {
                 }
                 return false;
             } catch (NumberFormatException e) {
-                // result is not numeric — can't detect anomalie automatically
                 return false;
             }
         }

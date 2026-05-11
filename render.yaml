@@ -1,7 +1,9 @@
 services:
   - type: web
     name: hoptal-DPI
-    runtime: docker
+    runtime: native
+    buildCommand: ./mvnw package -DskipTests
+    startCommand: java -jar target/*.jar
     envVars:
       - key: SPRING_DATASOURCE_URL
         value: jdbc:postgresql://aws-1-eu-west-3.pooler.supabase.com:5432/postgres

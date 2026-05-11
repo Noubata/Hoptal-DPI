@@ -1,5 +1,6 @@
 package beny.hoptal.controller;
 
+import beny.hoptal.data.repositories.ReleveMedicaleRepository;
 import beny.hoptal.dtos.requests.AjouterPrescriptionRequest;
 import beny.hoptal.dtos.requests.CreerReleveMedicaleRequest;
 import beny.hoptal.dtos.requests.DemandeAnalyseRequest;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -16,9 +19,11 @@ import java.util.List;
 public class ReleveMedicaleController {
 
     private final ReleveMedicaleService releveMedicaleService;
+    private final ReleveMedicaleRepository releveMedicaleRepository;
 
-    public ReleveMedicaleController(ReleveMedicaleService releveMedicaleService) {
+    public ReleveMedicaleController(ReleveMedicaleService releveMedicaleService, ReleveMedicaleRepository releveMedicaleRepository) {
         this.releveMedicaleService = releveMedicaleService;
+        this.releveMedicaleRepository = releveMedicaleRepository;
     }
 
     @PostMapping
@@ -27,6 +32,14 @@ public class ReleveMedicaleController {
         System.out.println("==> creerReleve appelé avec patientId: " + request.getPatientId() + " doctorId: " + request.getDoctorId());
         CreerReleveMedicaleResponse creerReleveMedicaleResponse = releveMedicaleService.creerReleve(request);
         return ResponseEntity.status(HttpStatus.OK).body(new APIResponse<>("Releve medical cree avec succes", creerReleveMedicaleResponse));
+    }
+
+    @GetMapping("/aujourd-hui/count")
+    public ResponseEntity<APIResponse<Long>> countConsultationsAujourdhui() {
+        LocalDateTime debutJour = LocalDate.now().atStartOfDay();
+        LocalDateTime finJour = debutJour.plusDays(1);
+        Long count = releveMedicaleRepository.countByDateDeVisiteBetween(debutJour, finJour);
+        return ResponseEntity.ok(new APIResponse<>("ok", count));
     }
 
     @GetMapping("/{releveId}")

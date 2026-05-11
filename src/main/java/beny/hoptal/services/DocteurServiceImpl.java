@@ -45,7 +45,6 @@ public class DocteurServiceImpl implements DocteurService {
         @Transactional
         @Override
         public CreerDocteurResponse creerDoctor(CreerDocteurRequest request) {
-            System.out.println("CREATE DOCTOR METHOD CALLED");
             if (docteurRepository.findByNumeroDeLicence(request.getNumeroDeLicence()).isPresent()) {
                 throw new NumeroLicenceExisteDeja("Un médecin avec le numéro de licence '"
                         + request.getNumeroDeLicence() + "' existe déjà.");
@@ -66,7 +65,6 @@ public class DocteurServiceImpl implements DocteurService {
             userRequest.setRoleId(role.getId());
             userRequest.setEmail(request.getEmail());
             User user = userService.creerUser(userRequest);
-            //userRepository.save(user);
 
             Docteur doctor = new Docteur();
             doctor.setNom(request.getNom());

@@ -59,9 +59,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173",
-                "https://hoptal-frontend.vercel.app",
-                "https://hoptal-frontend-git-master-noubatas-projects.vercel.app",
-                "https://hoptal-frontend-jb0m3lq4t-noubatas-projects.vercel.app"));
+                "https://hoptal-frontend.vercel.app"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
@@ -84,9 +82,23 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/api/auth/login").permitAll()
-                        .anyRequest().authenticated()
-                )
+                // Public — login only
+                .requestMatchers("/api/auth/login").permitAll()
+
+                // ADMIN only
+                .requestMatchers("/api/laborantins/**").hasRole("ADMIN")
+                .requestMatchers("/api/doctors/**").hasAnyRole("ADMIN")
+                .requestMatchers("/api/auth/activer-desactiver/**").hasRole("ADMIN")
+
+                // ADMIN + DOCTOR
+                .requestMatchers("/api/patients/**").hasAnyRole("ADMIN", "DOCTOR", "PATIENT")
+                .requestMatchers("/api/releves/**").hasAnyRole("ADMIN", "DOCTOR")
+                .requestMatchers("/api/prescriptions/**").hasAnyRole("ADMIN", "DOCTOR", "PATIENT")
+                .requestMatchers("/api/resultats-labo/**").hasAnyRole("ADMIN", "DOCTOR", "PATIENT", "LABORANTIN")
+
+                // Everything else requires authentication
+                .anyRequest().authenticated()
+        )
 
                 // Add JWT filter before Spring's default auth filter
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

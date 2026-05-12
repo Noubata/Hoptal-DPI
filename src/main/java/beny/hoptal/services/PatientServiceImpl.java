@@ -210,7 +210,6 @@ public class PatientServiceImpl implements PatientService {
             return PatientMapper.toAntecedentResponse(antecedentRepository.save(antecedent));
         }
 
-    // Add these 3 methods to PatientService
     @Override
     public CreerPatientResponse getPatientById(Long patientId) {
         Patient patient = patientRepository.findById(patientId)

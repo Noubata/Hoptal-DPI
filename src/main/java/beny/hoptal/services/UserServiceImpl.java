@@ -74,10 +74,10 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setActif(true);
         user.setDateCreation(LocalDateTime.now());
-        System.out.println("==> Email reçu : " + request.getEmail());
-        System.out.println("==> User email avant save : " + user.getEmail());
+//        System.out.println("==> Email reçu : " + request.getEmail());
+//        System.out.println("==> User email avant save : " + user.getEmail());
         User saved = userRepository.save(user);
-        System.out.println("==> User email après save : " + saved.getEmail());
+        //System.out.println("==> User email après save : " + saved.getEmail());
         return saved;
     }
 
